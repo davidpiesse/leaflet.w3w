@@ -73,7 +73,7 @@ L.Control.w3w = L.Control.extend({
 
 	_addText: function(container, context)
 	{
-		this._locationText = L.DomUtil.create('span', 'leaflet-control-w3w-locationText' , container),
+		this._locationText = L.DomUtil.create('span', 'leaflet-control-w3w-locationText' , container);
 		return container;
 	},
 
