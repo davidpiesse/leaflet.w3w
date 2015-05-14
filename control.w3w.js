@@ -25,7 +25,7 @@ L.Control.w3w = L.Control.extend({
 
 		L.DomEvent.addListener(container, 'click', function() {
 			var lat = L.DomUtil.get(that._lat),
-				lng = L.DomUtil.get(that._lng),
+				lng = L.DomUtil.get(that._lng);
 				//api call
 				//get the words
 				console.log(lat);
