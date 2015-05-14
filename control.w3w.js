@@ -24,7 +24,7 @@ L.Control.w3w = L.Control.extend({
 		this._addText(container, map);
 		
 		L.DomEvent.addListener(container, 'click', function() {
-			//copy paste functionality
+			window.prompt("Copy to clipboard: Ctrl+C, Enter", L.DomUtil.get(this._locationText).dataset.words);
     	}, this);
 		return container;
 	},
@@ -58,6 +58,8 @@ L.Control.w3w = L.Control.extend({
 			
 			getJSON('http://api.what3words.com/position?key='+this.options.apikey+'&position='+obj.lat+','+obj.lng, function(data) {
 			  locText.innerHTML = '<strong>w3w:</strong> ' + data.words[0] + " " + data.words[1] + " " + data.words[2];
+			  locText.dataset.words =("data-",  data.words[0] + " " + data.words[1] + " " + data.words[2]);
+			  
 			}, function(status) {
 			  console.log('Something went wrong.');
 			});
