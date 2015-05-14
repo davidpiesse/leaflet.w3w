@@ -4,7 +4,8 @@ L.Control.w3w = L.Control.extend({
 		position: 'bottomleft',
 		locationText:'- - -',
 		promptText: 'Press Ctrl+C to copy location',
-		precision: 4
+		precision: 4,
+		apikey = "YOURAPIKEY"
 	},
 
 	initialize: function(options)
@@ -24,19 +25,46 @@ L.Control.w3w = L.Control.extend({
 		this._addText(container, map);
 
 		L.DomEvent.addListener(container, 'click', function() {
-			var lat = L.DomUtil.get(that._lat),
-				lng = L.DomUtil.get(that._lng);
-				//api call
-				//get the words
-				console.log(lat);
-				console.log(lon);
-				locationText = "what three words"
-				// latTextLen = this.options.latitudeText.length + 1,
-				// lngTextLen = this.options.longitudeText.length + 1,
-				// latTextIndex = lat.textContent.indexOf(this.options.latitudeText) + latTextLen,
-				// lngTextIndex = lng.textContent.indexOf(this.options.longitudeText) + lngTextLen,
-				// latCoordinate = lat.textContent.substr(latTextIndex),
-				// lngCoordinate = lng.textContent.substr(lngTextIndex);
+			var lat = L.DomUtil.get(that._lat), lng = L.DomUtil.get(that._lng);
+			var getJSON = function(url, successHandler, errorHandler) {
+			 var xhr = typeof XMLHttpRequest != 'undefined'
+			    ? new XMLHttpRequest()
+			    : new ActiveXObject('Microsoft.XMLHTTP');
+			  xhr.open('get', url, true);
+			  xhr.responseType = 'json';
+			  xhr.onreadystatechange = function() {
+			    var status;
+			    var data;
+			    // https://xhr.spec.whatwg.org/#dom-xmlhttprequest-readystate
+			    if (xhr.readyState == 4) { // `DONE`
+			      status = xhr.status;
+			      if (status == 200) {
+			        successHandler && successHandler(xhr.response);
+			      } else {
+			        errorHandler && errorHandler(status);
+			      }
+			    }
+			  };
+			  xhr.send();
+			};
+			
+			getJSON('http://api.what3words.com/position?key='+this.options.apikey+'&position='+lat+','+lon, function(data) {
+			  alert(data);
+			  locationText = data.words[0] + " " + data.words[1] + " " + data.words[2]
+			}, function(status) {
+			  alert('Something went wrong.');
+			});
+			//api call
+			//get the words
+			// console.log(lat);
+			// console.log(lon);
+			locationText = "what three words"
+			// latTextLen = this.options.latitudeText.length + 1,
+			// lngTextLen = this.options.longitudeText.length + 1,
+			// latTextIndex = lat.textContent.indexOf(this.options.latitudeText) + latTextLen,
+			// lngTextIndex = lng.textContent.indexOf(this.options.longitudeText) + lngTextLen,
+			// latCoordinate = lat.textContent.substr(latTextIndex),
+			// lngCoordinate = lng.textContent.substr(lngTextIndex);
 		    window.prompt(this.options.promptText, locationText);
     	}, this);
 
@@ -69,3 +97,5 @@ L.Control.w3w = L.Control.extend({
 		}
 	}
 });
+
+
