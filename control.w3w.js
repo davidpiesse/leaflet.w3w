@@ -5,7 +5,7 @@ L.Control.w3w = L.Control.extend({
 		locationText:'- - -',
 		promptText: 'Press Ctrl+C to copy location',
 		precision: 4,
-		apikey = "YOURAPIKEY"
+		apikey : "YOURAPIKEY"
 	},
 
 	initialize: function(options)
