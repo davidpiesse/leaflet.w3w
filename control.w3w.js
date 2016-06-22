@@ -4,7 +4,7 @@ L.Control.w3w = L.Control.extend({
 		locationText:'- - -',
 		promptText: 'Press Ctrl+C to copy location',
 		precision: 4,
-		apikey : "YOURAPIKEY" //your api key
+		//apikey : "YOURKEYHERE" //your api key
 	},
 
 	initialize: function(options)
@@ -56,9 +56,10 @@ L.Control.w3w = L.Control.extend({
 			  xhr.send();
 			};
 			
-			getJSON('http://api.what3words.com/position?key='+this.options.apikey+'&position='+obj.lat+','+obj.lng, function(data) {
-			  locText.innerHTML = '<strong>w3w:</strong> ' + data.words[0] + " " + data.words[1] + " " + data.words[2];
-			  locText.dataset.words =("data-",  data.words[0] + " " + data.words[1] + " " + data.words[2]);
+			getJSON('https://api.what3words.com/v2/reverse?key='+this.options.apikey+'&coords='+obj.lat+','+obj.lng, function(data) {
+				console.log(data);
+			  locText.innerHTML = '<strong>w3w:</strong> ' + data.words;
+			  locText.dataset.words =("data-",  data.words);
 			  
 			}, function(status) {
 			  console.log('Something went wrong.');
